@@ -9,8 +9,9 @@ struct Account
 };
 
 struct Account add_record(std::string,  double, double);
-void display_data();
-void search_record();
+void create_account();
+void display_data(struct Account);
+void search_record(int);
 void edit_record();
 void delete_record();
 
@@ -35,29 +36,45 @@ int main()
 
     switch (choice) {
       case 1:
+        /* display_data(); */
       case 2:
+        /* search_record(); */
       case 3:
+        create_account();
       case 4:
+        edit_record();
       case 5:
+        delete_record();
       case 6:
         program = false;
     }
   } while (program);
 
+  std::cout << "Until next time!!" << std::endl;
 
   return 0;
+}
+
+void display_data(struct Account acc)
+{
+
+}
+
+void search_record(int id)
+{
+  /* std::cout << id.name << std::endl; */
 }
 
 void create_account()
 {
   bool add_account = true;
   do {
-      char add_account;
+      char new_account;
       std::string name;
       double chequings = 0;
       double savings = 0;;
 
-      std::cout << "Hello, please enter your name: ";
+      std::cout << "\nPlease enter your name: ";
       std::cin >> name;
 
       std::cout << "Enter chequing balance: ";
@@ -66,14 +83,19 @@ void create_account()
       std::cout << "Enter savings balance: ";
       std::cin >> savings;
 
-      // Create account
-      add_record(name, chequings, savings);
+      // Create and return account
+      struct Account acc = add_record(name, chequings, savings);
+      std::cout << "User id: " << acc.account_id<< std::endl;
+      // Reference to id
+      int &user_id = acc.account_id;
+      // Create pointer for access
+      struct Account *id_ptr= &user_id;
 
       std::cout << "Add another account? (y/n): ";
-      std::cin >> add_account;
+      std::cin >> new_account;
 
       // Check if user wants to add another account
-      switch (add_account) {
+      switch (new_account) {
         case 'y':
           continue;
         case 'n':
@@ -86,26 +108,17 @@ void create_account()
 
 struct Account add_record(std::string name, double cheque_balance, double savings_balance)
 {
- // Generate a random account number
- srand(time(NULL));
- int account_number =  rand() % ((199999 - 100000) + 1) + 100000;
+  // Generate a random account number
+  srand(time(NULL));
+  int account_id =  rand() % ((199999 - 100000) + 1) + 100000;
 
- // Check if account number already exists
+  // Check if account number already exists
 
- // Create account
- struct Account acc = {name, account_number, cheque_balance, savings_balance};
+  // Create account
+  Account acc= {name, account_id, cheque_balance, savings_balance};
 
- return acc;
-}
-
-void display_data(struct Account p)
-{
-
-}
-
-void search_record()
-{
-
+  // Return  account id
+  return acc;
 }
 
 void edit_record()
