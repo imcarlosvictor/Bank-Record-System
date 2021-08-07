@@ -10,9 +10,9 @@ struct Account
 };
 
 struct Account add_record(std::string,  double, double);
-void create_account(std::vector<struct Account>);
-void display_data(struct Account);
+void display_data(std::vector<struct Account>);
 void search_record(std::vector<struct Account>, int);
+void create_account(std::vector<struct Account>&);
 void edit_record();
 void delete_record();
 
@@ -40,7 +40,7 @@ int main()
 
     switch (choice) {
       case 1:
-        /* display_data(); */
+        display_data(account_users);
         continue;
       case 2:
         std::cout << "Enter user account number: ";
@@ -68,9 +68,19 @@ int main()
   return 0;
 }
 
-void display_data(struct Account acc)
+void display_data(std::vector<struct Account> acc_users)
 {
+  int count = 0;
+  std::cout<< "-----------------------------------------------------------------------------------------\n";
+  std::cout << "|\tID\t|\tName\t\t|\tChequings\t|\tSavings\t\t|\n";
+  std::cout<< "-----------------------------------------------------------------------------------------\n";
+  for (int i=0; i<acc_users.size(); ++i) {
+    std::cout << "|     " << acc_users[i].account_id << "\t|\t" << acc_users[i].name << "\t\t|\t " << acc_users[i].chequings_account << "\t\t|\t" << acc_users[i].savings_account << "\t\t|\n";
+    ++count;
+  }
 
+  if (count == 0)
+    std::cout << "No existing users";
 }
 
 void search_record(std::vector<struct Account> acc_users, int acc_id)
@@ -83,7 +93,7 @@ void search_record(std::vector<struct Account> acc_users, int acc_id)
       user_found = true;
       std::cout << "Name: " << acc_users[i].name << std::endl;
       std::cout << "User ID: " << acc_users[i].account_id << std::endl;
-      std::cout << "Chequings: " << 'S' << acc_users[i].chequings_account << std::endl;
+      std::cout << "Chequings: " << '$' << acc_users[i].chequings_account << std::endl;
       std::cout << "Savings: " << '$' << acc_users[i].savings_account << std::endl;
     }
   }
@@ -91,7 +101,7 @@ void search_record(std::vector<struct Account> acc_users, int acc_id)
     std::cout << "User does not exist";
 }
 
-void create_account(std::vector<struct Account> vect)
+void create_account(std::vector<struct Account> &vect)
 {
   bool add_account = true;
   while (add_account) {
