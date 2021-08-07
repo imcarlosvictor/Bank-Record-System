@@ -12,7 +12,7 @@ struct Account
 struct Account add_record(std::string,  double, double);
 void create_account(std::vector<struct Account>);
 void display_data(struct Account);
-void search_record(int);
+void search_record(std::vector<struct Account>, int);
 void edit_record();
 void delete_record();
 
@@ -46,7 +46,7 @@ int main()
         std::cout << "Enter user account number: ";
         int acc_id;
         std::cin >> acc_id;
-        search_record(acc_id);
+        search_record(account_users, acc_id);
         continue;
       case 3:
         create_account(account_users);
@@ -73,9 +73,19 @@ void display_data(struct Account acc)
 
 }
 
-void search_record(int id)
+void search_record(std::vector<struct Account> acc_users, int acc_id)
 {
   /* std::cout << id.name << std::endl; */
+  for (int i=0; i<acc_users.size(); ++i) {
+    if (acc_users[i].account_id == acc_id) {
+      std::cout << "Name: " << acc_users[i].name << std::endl;
+      std::cout << "User ID: " << acc_users[i].account_id << std::endl;
+      std::cout << "Chequings: " << 'S' << acc_users[i].chequings_account << std::endl;
+      std::cout << "Savings: " << '$' << acc_users[i].savings_account << std::endl;
+    } else {
+      std::cout << "User does not exist.";
+    }
+  }
 }
 
 void create_account(std::vector<struct Account> vect)
@@ -101,14 +111,17 @@ void create_account(std::vector<struct Account> vect)
       int account_id =  rand() % ((199999 - 100000) + 1) + 100000;
 
       // Create and return account
-      struct Account acc = {name, account_id, chequings, savings};
-      std::cout << "User id: " << acc.account_id<< std::endl;
+      struct Account new_acc = {name, account_id, chequings, savings};
+      std::cout << "\nAccount created successfully " << std::endl;
+      std::cout << "User id: " << new_acc.account_id << std::endl;
 
       // Store account
-      vect.push_back(acc);
+      vect.push_back(new_acc);
+
+      search_record(vect, new_acc.account_id);
 
       // Ask if user wants to create another account
-      std::cout << "Add another account? (y/n): ";
+      std::cout << "\nAdd another account? (y/n): ";
       std::cin >> new_account;
 
       switch (new_account) {
