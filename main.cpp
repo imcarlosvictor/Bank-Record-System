@@ -76,16 +76,19 @@ void display_data(struct Account acc)
 void search_record(std::vector<struct Account> acc_users, int acc_id)
 {
   /* std::cout << id.name << std::endl; */
+  bool user_found = false;
   for (int i=0; i<acc_users.size(); ++i) {
-    if (acc_users[i].account_id == acc_id) {
+    auto existing_user = acc_users[i].account_id == acc_id;
+    if (existing_user) {
+      user_found = true;
       std::cout << "Name: " << acc_users[i].name << std::endl;
       std::cout << "User ID: " << acc_users[i].account_id << std::endl;
       std::cout << "Chequings: " << 'S' << acc_users[i].chequings_account << std::endl;
       std::cout << "Savings: " << '$' << acc_users[i].savings_account << std::endl;
-    } else {
-      std::cout << "User does not exist.";
     }
   }
+  if (!user_found)
+    std::cout << "User does not exist";
 }
 
 void create_account(std::vector<struct Account> vect)
@@ -113,7 +116,6 @@ void create_account(std::vector<struct Account> vect)
       // Create and return account
       struct Account new_acc = {name, account_id, chequings, savings};
       std::cout << "\nAccount created successfully " << std::endl;
-      std::cout << "User id: " << new_acc.account_id << std::endl;
 
       // Store account
       vect.push_back(new_acc);
