@@ -14,7 +14,7 @@ void display_data(std::vector<struct Account>);
 void search_record(std::vector<struct Account>, int);
 void create_account(std::vector<struct Account>&);
 void edit_record(std::vector<struct Account>&, int);
-void delete_record();
+void delete_record(std::vector<struct Account>&, int);
 
 int main()
 {
@@ -58,7 +58,16 @@ int main()
         edit_record(account_users, edit_acc_id);
         continue;
       case 5:
-        delete_record();
+        // Check if there are accounts in the database first
+        if (account_users.size() == 0) {
+          std::cout << "The database is not populated" << std::endl;
+          break;
+        }
+        // Delete User
+        std::cout << "Enter user ID: ";
+        int delete_acc_id;
+        std::cin >> delete_acc_id;
+        delete_record(account_users, delete_acc_id);
         continue;
       case 6:
         program = false;
@@ -199,7 +208,33 @@ void edit_record(std::vector<struct Account> &accnt_users, int accnt_id)
   }
 }
 
-void delete_record()
+void delete_record(std::vector<struct Account> &accnt_users, int accnt_id)
 {
+  // Print User info
+  int user_index;
+  bool user_found = false;
+  for (int i=0; i<accnt_users.size(); ++i) {
+    bool existing_user = accnt_users[i].account_id == accnt_id;
+    if (existing_user) {
+      user_index = i;
+      user_found = true;
+      std::cout << "Name: " << accnt_users[i].name << std::endl;
+      std::cout << "User ID: " << accnt_users[i].account_id << std::endl;
+      std::cout << "Chequings: " << '$' << accnt_users[i].chequings_account << std::endl;
+      std::cout << "Savings: " << '$' << accnt_users[i].savings_account << std::endl;
+    } 
+    // If there are no users in the database or user is not in database
+    if (i == accnt_users.size() && user_found == false) {
+      std::cout << "\nAccount does not exist in database\n";
+      break;
+    }
+  }
 
+  char delete_user;
+  std::cout << "\nAre you sure you want to delete user " << accnt_users[user_index].account_id << "? (y/n): ";
+  std::cin >> delete_user;
+  if (delete_user == 'y') {
+    accnt_users.erase(accnt_users.begin()+user_index);
+    std::cout << "\nAccount successfully deleted";
+  }
 }
