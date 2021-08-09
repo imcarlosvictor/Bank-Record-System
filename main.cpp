@@ -106,8 +106,8 @@ void search_record(std::vector<struct Account> accnt_users, int accnt_id)
       user_found = true;
       std::cout << "Name: " << accnt_users[i].name << std::endl;
       std::cout << "User ID: " << accnt_users[i].account_id << std::endl;
-      std::cout << "Chequings: " << '$' << accnt_users[i].chequings_account << std::endl;
-      std::cout << "Savings: " << '$' << accnt_users[i].savings_account << std::endl;
+      std::cout << "Chequings: $" << accnt_users[i].chequings_account << std::endl;
+      std::cout << "Savings: $" << accnt_users[i].savings_account << std::endl;
     }
   }
   if (!user_found)
