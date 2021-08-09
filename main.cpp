@@ -21,7 +21,6 @@ int main()
   // Store created accounts
   std::vector<struct Account> account_users;
 
-  bool program = true;
   while (program) {
     std::cout << "\n\n---------------------------------------------------------\n";
     std::cout << "|\t\tACCOUNT INFORMATION SYSTEM \t\t|\n";
@@ -70,7 +69,6 @@ int main()
         delete_record(account_users, delete_acc_id);
         continue;
       case 6:
-        program = false;
         break;
     }
   }
